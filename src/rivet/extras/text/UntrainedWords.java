@@ -2,9 +2,7 @@ package rivet.extras.text;
 
 import static java.util.Arrays.stream;
 
-import rivet.core.arraylabels.*;
 import rivet.core.labels.ArrayRIV;
-import rivet.core.labels.RandomIndexVector;
 
 public final class UntrainedWords {
     private UntrainedWords(){}
