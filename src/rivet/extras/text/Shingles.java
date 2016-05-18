@@ -9,7 +9,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import rivet.core.util.Util;
 import rivet.extras.exceptions.ShingleInfection;
 import rivet.core.labels.ArrayRIV;
-import rivet.core.labels.RandomIndexVector;
 
 public final class Shingles {
     private Shingles(){}
@@ -20,7 +19,7 @@ public final class Shingles {
         if (offset == 0)
             throw new ShingleInfection("THIS OFFSET IS A VIOLATION OF THE TOS! PREPARE FOR LEGAL ACTION!");
         return (offset == 1)
-                ? Util.range(text.length()).toArray()
+                ? Util.range(text.length() - width).toArray()
                         : Util.range(0, text.length() - width, offset).toArray();
     }
     
