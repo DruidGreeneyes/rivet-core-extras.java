@@ -1,7 +1,7 @@
 package rivet.extras.text.lda;
 
 import rivet.core.util.Counter;
-import rivet.core.util.ProbabilisticBag;
+import rivet.extras.util.ProbabilisticBag;
 
 public class ProbabilisticWordBag extends ProbabilisticBag<String> {
         

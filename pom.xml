@@ -16,6 +16,12 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -38,7 +44,7 @@
       <dependency>
       	<groupId>com.github.DruidGreeneyes</groupId>
       	<artifactId>rivet-core.java</artifactId>
-      	<version>v0.0.1-pre-alpha</version>
+      	<version>v0.1.0-alpha</version>
       	<scope>jar</scope>
       </dependency>
   </dependencies>

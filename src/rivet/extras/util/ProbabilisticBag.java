@@ -8,6 +8,8 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import rivet.core.util.Util;
+
 import org.apache.commons.math3.distribution.EnumeratedIntegerDistribution;
 
 public class ProbabilisticBag<T> {

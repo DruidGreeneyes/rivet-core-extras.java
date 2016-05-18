@@ -3,7 +3,7 @@ package rivet.extras.text.lda;
 import rivet.core.arraylabels.Labels;
 import rivet.core.arraylabels.RIV;
 import rivet.core.util.Pair;
-import rivet.core.util.ProbabilisticBag;
+import rivet.extras.util.ProbabilisticBag;
 
 public class ProbabilisticRIVBag extends ProbabilisticBag<RIV> {
     
