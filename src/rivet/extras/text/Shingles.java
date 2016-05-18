@@ -63,7 +63,11 @@ public final class Shingles {
                     (rivA, rivB) -> rivA.add(rivB));
     }
     
-    public static RandomIndexVector sumRIVs (RandomIndexVector[] rivs) { return RandomIndexVector.addRIVs(rivs);}
+    public static ArrayRIV sumRIVs (ArrayRIV[] rivs) { 
+        return Arrays.stream(rivs).reduce(
+                new ArrayRIV(rivs[0].size()),
+                (i, r) -> i.add(r));
+    }
     
     public static ArrayRIV rivettizeText(String text, int width, int offset, int size, int k) throws ShingleInfection {
         int[] points = findShinglePoints(text, offset, width);

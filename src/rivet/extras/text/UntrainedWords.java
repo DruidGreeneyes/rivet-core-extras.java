@@ -22,8 +22,7 @@ public final class UntrainedWords {
     
     public static ArrayRIV sumArrayRIVs (ArrayRIV[] rivs) { 
         return stream(rivs)
-                .reduce(
-                        new ArrayRIV(rivs[0].size()),
+                .reduce(new ArrayRIV(rivs[0].size()),
                         (i, r) -> i.add(r));
     }
     
