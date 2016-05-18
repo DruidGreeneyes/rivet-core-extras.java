@@ -12,9 +12,12 @@ public final class UntrainedWords {
     }
     
     public static RIV[] rivWords (String[] words, int size, int k) {
-        return stream(words)
-                .map(Labels.labelGenerator(size, k))
-                .toArray(RIV[]::new);
+        RIV[] res = new RIV[words.length];
+        for (int i = 0; i < words.length; i++) {
+            RIV riv = Labels.generateLabel(size, k, words[i]);
+            res[i] = riv;
+        }
+        return res;
     }
     
     public static RIV sumRIVs (RIV[] rivs) { return Labels.addLabels(rivs); }
