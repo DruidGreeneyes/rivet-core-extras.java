@@ -26,8 +26,20 @@ public final class UntrainedWords {
                         (i, r) -> i.add(r));
     }
     
-    public static ArrayRIV rivettizeText (String text, int size, int k) {
-        return sumArrayRIVs(rivWords(tokenizeText(text), size, k));
+    public static ArrayRIV rivAndSumWords (String[] words, int size, int k) {
+        return stream(words)
+                .reduce(new ArrayRIV(size), 
+                        (identity, word) -> identity.add(ArrayRIV.generateLabel(size, k, word)),
+                        ArrayRIV::add);
     }
     
+    public static ArrayRIV rivAndSumWords_2 (String[] words, int size, int k) {
+        return new ArrayRIV(size)
+                    .add(stream(words)
+                            .map((word) ->ArrayRIV.generateLabel(size, k, word)));
+    }
+    
+    public static ArrayRIV rivettizeText (String text, int size, int k) {
+        return rivAndSumWords(tokenizeText(text), size, k);
+    }
 }

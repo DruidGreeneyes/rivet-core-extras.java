@@ -44,7 +44,7 @@
       <dependency>
       	<groupId>com.github.DruidGreeneyes</groupId>
       	<artifactId>rivet-core.java</artifactId>
-      	<version>v0.2.0-alpha</version>
+      	<version>v0.2.1-alpha</version>
       	<scope>jar</scope>
       </dependency>
       <dependency>
