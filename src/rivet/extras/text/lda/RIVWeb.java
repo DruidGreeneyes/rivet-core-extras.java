@@ -1,26 +1,26 @@
 package rivet.extras.text.lda;
 
 import java.util.ArrayList;
-import rivet.core.arraylabels.Labels;
-import rivet.core.arraylabels.RIV;
+import rivet.core.labels.RandomIndexVector;
+import rivet.core.labels.ArrayRIV;
 import rivet.core.util.Pair;
 
 public class RIVWeb {
     
     private final int size;
-    private final RIV riv;
+    private final ArrayRIV riv;
     private final ArrayList<Pair<RIVWeb, Double>> strongLinks;
     private final ArrayList<Pair<RIVWeb, Double>> weakLinks;
     private final double linkThreshold;
     
-    private RIVWeb(int size, RIV riv, double linkThreshold, ArrayList<Pair<RIVWeb, Double>> strongLinks, ArrayList<Pair<RIVWeb, Double>> weakLinks) {
+    private RIVWeb(int size, ArrayRIV riv, double linkThreshold, ArrayList<Pair<RIVWeb, Double>> strongLinks, ArrayList<Pair<RIVWeb, Double>> weakLinks) {
         this.riv = riv;
         this.size = size;
         this.linkThreshold = linkThreshold;
         this.strongLinks = strongLinks;
         this.weakLinks = weakLinks;
     }
-    private RIVWeb(RIV riv, double linkThreshold) {
+    private RIVWeb(ArrayRIV riv, double linkThreshold) {
         this(
                 riv.size(),
                 riv,
@@ -49,8 +49,8 @@ public class RIVWeb {
         node.left.weakLinks.remove(Pair.make(this, node.right));
     }
     
-    private void add(RIV riv) {
-        double sim = Labels.similarity(riv, this.riv);
+    private void add(ArrayRIV riv) {
+        double sim = RandomIndexVector.similarity(riv, this.riv);
         if (strongLinks.isEmpty() && weakLinks.isEmpty()) {
             if (sim >= linkThreshold)
                 strongLink(Pair.make(new RIVWeb(riv, this.linkThreshold), sim));
@@ -61,5 +61,5 @@ public class RIVWeb {
         }
     }
     
-    public static RIVWeb start(RIV riv, double linkThreshold) { return new RIVWeb(riv, linkThreshold); }
+    public static RIVWeb start(ArrayRIV riv, double linkThreshold) { return new RIVWeb(riv, linkThreshold); }
 }

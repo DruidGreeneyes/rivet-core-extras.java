@@ -1,13 +1,13 @@
 package rivet.extras.text.lda;
 
-import rivet.core.arraylabels.RIV;
+import rivet.core.labels.ArrayRIV;
 
 public class RTEntry {
-    final RIV riv;
+    final ArrayRIV riv;
     final int topic;
     
-    private RTEntry(RIV r, int t) {riv = r; topic = t;}
+    private RTEntry(ArrayRIV r, int t) {riv = r; topic = t;}
     
-    public static RTEntry make(RIV riv, int topic) {return new RTEntry(riv, topic);}
+    public static RTEntry make(ArrayRIV riv, int topic) {return new RTEntry(riv, topic);}
 
 }

@@ -1,15 +1,15 @@
 package rivet.extras.text.lda;
 
-import rivet.core.arraylabels.Labels;
-import rivet.core.arraylabels.RIV;
+import rivet.core.labels.RandomIndexVector;
+import rivet.core.labels.ArrayRIV;
 import rivet.core.util.Pair;
 import rivet.extras.util.ProbabilisticBag;
 
-public class ProbabilisticRIVBag extends ProbabilisticBag<RIV> {
+public class ProbabilisticRIVBag extends ProbabilisticBag<ArrayRIV> {
     
     public final int size;
     
-    private RIV meanVector;
+    private ArrayRIV meanVector;
     
     public ProbabilisticRIVBag(int size) {super(); this.size = size;}
     
@@ -19,21 +19,21 @@ public class ProbabilisticRIVBag extends ProbabilisticBag<RIV> {
         meanVector = bag.entrySet()
                         .stream()
                         .map((e) -> e.getKey().multiply(e.getValue()))
-                        .reduce(new RIV(size), Labels::addLabels)
-                        .divideBy(count());
+                        .reduce(new ArrayRIV(size), ArrayRIV::add)
+                        .divide(count());
     }
     
     @Override
     public void update() { if(!upToDate) redistribute(); }
     
-    public ProbabilisticBag<Pair<RIV, Double>> neighbors(RIV riv, double targetDistance) {
-        ProbabilisticBag<Pair<RIV, Double>> res = new ProbabilisticBag<>();
+    public ProbabilisticBag<Pair<ArrayRIV, Double>> neighbors(ArrayRIV riv, double targetDistance) {
+        ProbabilisticBag<Pair<ArrayRIV, Double>> res = new ProbabilisticBag<>();
         keyStream()
-            .map((r) -> Pair.make(r, Labels.similarity(r, riv)))
+            .map((r) -> Pair.make(r, RandomIndexVector.similarity(r, riv)))
             .filter((p) -> p.right >= targetDistance)
             .forEach((p) -> res.add(p, this.count(p.left)));
         return res;
     }
     
-    public RIV meanVector() { update(); return meanVector; }
+    public ArrayRIV meanVector() { update(); return meanVector; }
 }

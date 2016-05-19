@@ -3,30 +3,29 @@ package rivet.extras.text.lda;
 import java.util.Collection;
 import java.util.HashSet;
 
-import rivet.core.arraylabels.Labels;
-import rivet.core.arraylabels.RIV;
+import rivet.core.labels.ArrayRIV;
 
-public class RIVSet extends HashSet<RIV> {
+public class RIVSet extends HashSet<ArrayRIV> {
     private final int size;
-    private RIV meanVector;
+    private ArrayRIV meanVector;
     private boolean upToDate;
     
     public RIVSet(int size) {super(); this.size = size; upToDate = false;}
     
     private void updateMeanVector() {
         meanVector = this.stream()
-                .reduce(new RIV(size), Labels::addLabels)
-                .divideBy(size());
+                .reduce(new ArrayRIV(size), ArrayRIV::add)
+                .divide(size());
     }
     
-    public RIV meanVector() {
+    public ArrayRIV meanVector() {
         if (!upToDate)
             updateMeanVector();
         return meanVector;
     }
     
     @Override
-    public boolean add(RIV riv) {
+    public boolean add(ArrayRIV riv) {
         boolean added = super.add(riv);
         if (added)
             upToDate = false;
@@ -34,7 +33,7 @@ public class RIVSet extends HashSet<RIV> {
     }
     
     @Override
-    public boolean addAll(Collection<? extends RIV> rivs) {
+    public boolean addAll(Collection<? extends ArrayRIV> rivs) {
         boolean added = super.addAll(rivs);
         if (added)
             upToDate = false;

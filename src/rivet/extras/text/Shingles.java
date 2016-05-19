@@ -1,10 +1,6 @@
 package rivet.extras.text;
 
-import static java.util.Arrays.stream;
-
 import java.util.Arrays;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import rivet.core.util.Util;
 import rivet.extras.exceptions.ShingleInfection;
@@ -16,24 +12,11 @@ public final class Shingles {
     public static int[] findShinglePoints (String text, int offset, int width) throws ShingleInfection {
         if (text == null || text.isEmpty())
             throw new ShingleInfection("THIS TEXT IS NOT TEXT!");
-        if (offset == 0)
+        if (offset < 1 )
             throw new ShingleInfection("THIS OFFSET IS A VIOLATION OF THE TOS! PREPARE FOR LEGAL ACTION!");
         return (offset == 1)
                 ? Util.range(text.length() - width).toArray()
-                        : Util.range(0, text.length() - width, offset).toArray();
-    }
-    
-    public static String[] shingleText(String text, int width, int offset) {
-        String[] res = new String[0];
-        for (int i = 0; i < text.length(); i += offset)
-            res = ArrayUtils.add(res, text.substring(i, i + width));
-        return res;
-    }
-    
-    public static ArrayRIV[] rivShingles (String[] shingles, int size, int k) {
-        return stream(shingles)
-            .map(ArrayRIV.labelGenerator(size, k))
-            .toArray(ArrayRIV[]::new);
+                : Util.range(0, text.length() - width + offset, offset).toArray();
     }
     
     public static ArrayRIV[] rivShingles (String text, int[] shinglePoints, int width, int size, int k) {

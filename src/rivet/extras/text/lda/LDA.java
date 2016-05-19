@@ -11,8 +11,8 @@ import org.apache.commons.math3.distribution.EnumeratedIntegerDistribution;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import rivet.core.arraylabels.Labels;
-import rivet.core.arraylabels.RIV;
+import rivet.core.labels.RandomIndexVector;
+import rivet.core.labels.ArrayRIV;
 import rivet.core.util.Counter;
 import rivet.core.util.Pair;
 import rivet.core.util.Util;
@@ -145,17 +145,17 @@ public final class LDA {
         return TopicHeirarchy.makeRoot(null);
     }
 
-    public static RIV[] rivTopics (String[][] texts, int numTopics, double changeThreshold, WordLexicon lexicon) {
+    public static ArrayRIV[] rivTopics (String[][] texts, int numTopics, double changeThreshold, WordLexicon lexicon) {
         int[] topicNums = Util.range(numTopics).toArray();
-        RIV[] topicRIVs = new RIV[numTopics];
+        ArrayRIV[] topicArrayRIVs = new ArrayRIV[numTopics];
         ArrayList<RTEntry> topicEntries = new ArrayList<RTEntry>();
 
         Random r = new Random();
         for (String[] text : texts)
             for (String token : text) {
-                RIV riv = lexicon.get(token);
+                ArrayRIV riv = lexicon.get(token);
                 int topic = r.nextInt(numTopics);
-                topicRIVs[topic].add(riv);
+                topicArrayRIVs[topic].add(riv);
                 topicEntries.add(RTEntry.make(riv, topic));
             }
 
@@ -170,7 +170,7 @@ public final class LDA {
                         .map((entry) -> {
                             double[] sims = 
                                     Arrays.stream(topicNums)
-                                    .mapToDouble((i) -> Labels.similarity(entry.riv, topicRIVs[i]))
+                                    .mapToDouble((i) -> RandomIndexVector.similarity(entry.riv, topicArrayRIVs[i]))
                                     .toArray();
                             int newTopic = 0;
                             for (int i : topicNums)
@@ -179,8 +179,8 @@ public final class LDA {
 
                             if (newTopic != entry.topic) {
                                 changes.inc();
-                                topicRIVs[entry.topic].subtract(entry.riv);
-                                topicRIVs[newTopic].add(entry.riv);
+                                topicArrayRIVs[entry.topic].subtract(entry.riv);
+                                topicArrayRIVs[newTopic].add(entry.riv);
                                 return RTEntry.make(entry.riv, newTopic);
                             } else
                                 return entry;
@@ -189,6 +189,6 @@ public final class LDA {
             topicEntries = newEntries;
         } while (changes.get() / numWords > changeThreshold);
 
-        return topicRIVs;
+        return topicArrayRIVs;
     }
 }

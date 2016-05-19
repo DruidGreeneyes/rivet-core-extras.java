@@ -1,9 +1,9 @@
 package rivet.extras.text.lda;
 
-import rivet.core.arraylabels.RIV;
+import rivet.core.labels.ArrayRIV;
 
 import java.util.ArrayList;
-import rivet.core.arraylabels.Labels;
+import rivet.core.labels.RandomIndexVector;
 
 public class RIVTopicHeirarchy {
     
@@ -47,18 +47,18 @@ public class RIVTopicHeirarchy {
         return child;
     }
     
-    public RIVTopic find(RIV riv) { return find(this, riv); }
+    public RIVTopic find(ArrayRIV riv) { return find(this, riv); }
     public RIVTopicHeirarchy findRoot() { return findRoot(this); }
     
     public static RIVTopicHeirarchy findRoot(RIVTopicHeirarchy point) { return (point.isRoot()) ? point : findRoot(point.parent); }
     
 
-    public static final RIVTopic find(RIVTopicHeirarchy point, RIV riv) { return _find(findRoot(point), riv); }
-    private static final RIVTopic _find(RIVTopicHeirarchy point, RIV riv) {
+    public static final RIVTopic find(RIVTopicHeirarchy point, ArrayRIV riv) { return _find(findRoot(point), riv); }
+    private static final RIVTopic _find(RIVTopicHeirarchy point, ArrayRIV riv) {
         RIVTopicHeirarchy next =
                 point.children.stream()
                     .reduce(point, (i, node) -> 
-                    (Labels.similarity(i.topic.meanVector(), riv) > Labels.similarity(node.topic.meanVector(), riv))
+                    (RandomIndexVector.similarity(i.topic.meanVector(), riv) > RandomIndexVector.similarity(node.topic.meanVector(), riv))
                             ? i
                             : node);
         if (next == point) 

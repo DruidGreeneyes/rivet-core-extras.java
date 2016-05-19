@@ -1,6 +1,6 @@
 package rivet.extras.exceptions;
 
-public final class ShingleInfection extends Exception {
+public final class ShingleInfection extends RuntimeException {
 
     /**
      * 
