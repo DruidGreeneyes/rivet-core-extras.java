@@ -37,16 +37,21 @@ public class ProbabilisticBag<T> {
     
     protected void update() { if (!upToDate) redistribute(); }
     
+    public boolean contains(T item) { return bag.containsKey(item); }
+    public boolean isEmpty() { return bag.isEmpty(); }
+    
     public void add(T item, int num) {bag.put(item, bag.getOrDefault(item, 0) + num); upToDate = false; }    
     public void add(T item) { add(item, 1); }
     
     public void subtract(T item, int num) {
         int count = bag.getOrDefault(item, 0);
-        if (count > num)
-            bag.put(item, count - num);
-        else if (count > 0)
-            bag.remove(item);
-        upToDate = false;
+        if (count > 0) {
+            if (count > num)
+                bag.put(item, count - num);
+            else
+                bag.remove(item);
+            upToDate = false;
+        }
     }
     public void subtract(T item) { subtract(item, 1); }
     
